@@ -88,7 +88,7 @@ void enlarge(HashMap * map)
         }
     }
 
-    // Liberar la memoria de los buckets antiguos
+    
     free(old);
 }
 
