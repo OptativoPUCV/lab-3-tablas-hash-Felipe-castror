@@ -61,11 +61,37 @@ void insertMap(HashMap * map, char * key, void * value)
 
 }
 
-void enlarge(HashMap * map) {
+void enlarge(HashMap * map) 
+{
     enlarge_called = 1; //no borrar (testing purposes)
 
+    Pair **old = map->buckets;
+    long old_capacity = map->capacity;
 
+    map->capacity *= 2;
+    map->buckets = (Pair **)calloc(map->capacity, sizeof(Pair *));
+    
+    if (!map->buckets) 
+    {
+        exit(EXIT_FAILURE); 
+    }
+
+    
+    map->size = 0;
+
+    
+    for (long i = 0; i < old_capacity; i++) 
+    {
+        if (old[i] != NULL && old[i]->key != NULL) 
+        {
+            insertMap(map, old[i]->key, old[i]->value);
+        }
+    }
+
+    // Liberar la memoria de los buckets antiguos
+    free(old);
 }
+
 
 
 HashMap * createMap(long capacity) 
